@@ -1,0 +1,216 @@
+% !TEX encoding = UTF-8 Unicode
+\documentclass[a4paper, 11pt]{report}
+
+\usepackage{ifxetex}
+
+\ifxetex
+  \usepackage{fontspec}
+\else
+  \usepackage[utf8]{inputenc}
+  \usepackage[T1]{fontenc}
+  \usepackage{lmodern} % Improve vectorial font
+\fi
+
+\usepackage{graphicx} % Required for includegraphics
+
+\usepackage{url, hyperref} % Useful to make links clickable amongst others
+
+\usepackage{float} % Put figures where you actually want [H]
+
+\usepackage{tikz} % Beautiful drawings
+\usetikzlibrary{arrows}
+
+\usepackage{amssymb}
+
+% Fancyhdr (headers and footers)
+% ==============================
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\cfoot{\thepage~sur \pageref{LastPage}} % style de numéro de page
+% - Fancypagestyle 'plain' pour les pages de chapitres -
+\fancypagestyle{plain}{%
+\fancyhf{} % vide l’en-tête et le pied~de~page.
+\fancyfoot[C]{\thepage~sur \pageref{LastPage}} % style de numéro de page
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}}
+% - Chapter mark -
+\renewcommand{\chaptermark}[1]{%
+\markboth{\MakeUppercase{%
+\chaptername}\ \thechapter.%
+\ #1}{}}
+% - Section mark -
+\renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}}
+% ==============================
+
+% Title page elements declarations
+% ================================================================
+
+% UNICAEN Logo
+% ------------
+\definecolor{logo}{rgb}{0,0,0} % Background colour of the logo
+
+\tikzset{ligne/.style={line width=5pt, color=white},
+         cover/.style={line width=5pt, color=logo}}
+
+\newcommand{\unicaen}{%
+\begin{tikzpicture}
+% Big black circle:
+\fill [fill=logo] (-0.2,0) circle (4);
+% Letter U:
+\draw[ligne] (-3,0.52) -- ++(0,-0.83); % Left bar of the U
+\coordinate (baseu) at (-3,-0.25);
+\draw[ligne] (baseu) .. controls +(0,-0.4) and +(-0.1,-0.4) .. (-2.2,-0.28);
+% Letter N:
+\draw[ligne] (-2.2,-0.35) -- ++(0,0.70) -- ++(-45:0.98)
+                                                            -- ++(90:0.85);
+\draw[cover] (-2.2,-0.52) ++(0,0.87) ++(0:-6.2pt) -- ++(-45:1.4); % Cover
+\draw[cover] (-1.51,0.27) node{\footnotesize$\blacksquare$}; % Cover
+
+% Letter C:
+\draw[ligne] (0.1,1.2) arc (90:270:1.2);
+\draw[cover] (-1.1,0) node{\footnotesize$\blacksquare$}; % Cover
+% Letter A (triangle):
+\coordinate (triangletop) at (0,0.4);
+\draw [ligne] (triangletop) -- ++(60:-1) -- ++(1,0)
+                                                  -- ++(-60:-1) -- cycle;
+\draw[cover] (triangletop) ++(0:-5pt) -- ++(-60:1.2); % Cover
+% Letter E:
+\draw[ligne] (0.8,0.45) -- ++(0.8,0);
+\draw[ligne] (0.8,0) -- ++(0.8,0);
+\draw[ligne] (0.8,-0.45) -- ++(0.8,0);
+% Letter N:
+\draw[ligne] (2,-0.52) -- ++(0,0.87) -- ++(-45:0.98)
+                                                            -- ++(90:0.85);
+\draw[cover] (2,-0.52) ++(0,0.87) ++(0:-6pt) -- ++(-45:1.4); % Cover
+\end{tikzpicture}}
+
+% New elements
+% ----------------------
+\makeatletter
+\def\@university{}
+\newcommand{\university}[1]{\def\@university{#1}}
+%
+\def\@department{}
+\newcommand{\department}[1]{\def\@department{#1}}
+%
+\def\@subject{}
+\newcommand{\subject}[1]{\def\@subject{#1}}
+\makeatother
+
+% ----- Title page customisation -----
+\makeatletter
+\newcommand{\mytitle}{
+  \begin{titlepage} % Create the command to include the title page in the document
+  \hbox{
+    \parbox[b]{.4\textwidth}{ % Paragraph box which restricts text to less than the width of the page
+      \resizebox{.3\textwidth}{!}{\unicaen}\\[1em]
+      {\noindent\LARGE\textsc\@university}\\[1em] % University
+      {\noindent\@department} % Department
+      \vskip.65\textheight % Skip from the bottom of the page to the text (\parbox[b])
+    }
+    %\hspace*{.2\textwidth} % Space to the left of the title page
+    \rule{1pt}{\textheight} % Vertical line
+    \hspace*{0.05\textwidth} % Space between the vertical line and title page text
+    \parbox[b]{0.75\textwidth}{
+      {\noindent\Huge\bfseries\@title} % Title
+      \vskip 5em%
+      {\large\textit{\@subject}} % Subject
+      \vskip 9em%
+      \@author % Author(s) name(s)
+      \vskip 0.4\textheight % Skip between the title block and the publisher
+      {\noindent\@date}\\[\baselineskip] % Date
+    }
+  }
+  \end{titlepage}
+}
+\makeatother
+% ============================================================
+% end of title page declarations
+
+\usepackage[french]{babel} % language package
+
+\title{Sokoban}
+\date{\today}
+\author{Maël Querré\\
+        Alexis Mortelier\\
+        Vincent De Menezes\\
+        Christina Williamson}
+\university{Université\\[.3em]
+            Caen\\[.3em]
+            Normandie}
+\department{Département d'informatique}
+\subject{Travail Personnel Approfondi}
+
+\begin{document}
+
+\mytitle
+
+\tableofcontents
+
+
+\chapter{Objectifs du projet}
+
+\section{Description du concept}
+
+\emph{Sokoban} est un jeu vidéo de puzzle inventé au Japon.
+
+\subsection{Règles du jeu \cite{wiki:Sokoban}}
+
+Gardien d'entrepôt (divisé en cases carrées), le joueur doit ranger des caisses sur des cases cibles. Il peut se déplacer dans les quatre directions, et pousser (mais pas tirer) une seule caisse à la fois. Une fois toutes les caisses rangées (c'est parfois un vrai casse-tête), le niveau est réussi et le joueur passe au niveau suivant, plus difficile en général. L'idéal est de réussir avec le moins de coups possibles (déplacements et poussées).
+
+\section{Ce qu'il fallait faire}
+
+Dans un premier temps, il s'agit de réaliser un jeu jouable pour un humain avec importation de niveaux. Pour cela, des formats de données (comme .xsb, .sok ou .stb) dédiés peuvent être utilisés. Une interface graphique devra égak-lement être réalisée. Une fois ce travail préliminaire fini, il conviendra de proposer une fonctionnalité de résolution automatique de niveau (comme l'algorithme A*) et de permettre de faire jouer humain et ordinateur en parallèle. Enfin, une dernière étape consiste à rendre \emph{anytime} l'algorithme de l'intelligence artificielle : cette dernière est obligée de jouer dès que l'humain fait un mouvement.
+
+\section{Ce qui existe déjà}
+
+
+\chapter{Fonctionnalités implémentées}
+
+\section{Description des fonctionnalités}
+
+\section{Organisation du projet}
+
+
+\chapter{Éléments techniques}
+
+\section{Algorithmes}
+
+\subsection{L'algorithme A*}
+
+L'algorithme A* \cite{wiki:Astar} est un algorithme de recherche de chemin dans un graphe entre un n\oe ud initial et un n\oe ud final. Il utilise une évaluation heuristique sur chaque n\oe ud pour estimer le meilleur chemin y passant, et visite ensuite les n\oe uds par ordre de cette évaluation heuristique. C'est un algorithme simple, ne nécessitant pas de prétraitement, et ne consommant que peu de mémoire.
+
+\section{Structures de données}
+
+Pour représenter les données du jeu, nous avons utilisé un tableau de cases possédant chacune un type (case vide, mur, caisse, joueur, cible, caisse sur cible, joueur sur cible).
+
+\section{Bibliothèques}
+
+
+\chapter{Architecture du projet}
+
+\section{Diagramme de classes}
+
+\section{Cas d'utilisation}
+
+\section{Chaînes de traitement}
+
+
+\chapter{Expérimentations et usages}
+
+\section{[Captures d'écran]}
+
+\section{Mesures de performance}
+
+
+\chapter{Conclusion}
+
+\section{[Récapitulatif des fonctionnalités principales]}
+
+\section{Propositions d'améliorations}
+
+\bibliographystyle{plain}
+\bibliography{bibliography}
+
+\end{document}

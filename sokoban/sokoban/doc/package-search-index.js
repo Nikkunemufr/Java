@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"sokoban"},{"l":"sokoban.editor"},{"l":"sokoban.gui"},{"l":"sokoban.launcher"},{"l":"sokoban.model"},{"l":"sokoban.util"}]
